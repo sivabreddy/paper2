@@ -1,8 +1,22 @@
+"""
+LHFGSO (Local Henry Gas Solubility Optimization) algorithm implementation.
+Used for optimizing neural network weights in the proposed Deep Maxout model.
+"""
 import numpy as np
 import random, math
 
 
 def algm(w):
+    """
+    Main LHFGSO optimization function.
+    Applies Henry's gas law inspired optimization to neural network weights.
+    
+    Args:
+        w: List of weight matrices to optimize
+        
+    Returns:
+        List of optimized weight matrices
+    """
     # Convert weights to a list of NumPy arrays if they aren't already
     if not isinstance(w, list):
         w = list(w)

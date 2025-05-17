@@ -1,9 +1,20 @@
+"""
+Data loading module for prostate MRI analysis system.
+Handles reading of features and labels from numpy arrays.
+"""
 import csv
 import os
 import numpy as np
 
 
 def read_data():
+    """
+    Loads MRI feature data from numpy array file.
+    
+    Returns:
+        numpy.ndarray: Preprocessed MRI features (64x64x3)
+        with NaN values replaced by zeros
+    """
     # #Read data from the csv file
     # file_name = "Feat.csv"                  #dataset location
     # datas = []
@@ -19,6 +30,13 @@ def read_data():
     return datas
 
 def read_label():
+    """
+    Loads ground truth labels from numpy array file.
+    
+    Returns:
+        numpy.ndarray: Binary classification labels
+        (0 = benign, 1 = malignant)
+    """
     # #Read data from the csv file
     # file_name = "Label.csv"                  #dataset location
     # datas = []

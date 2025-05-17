@@ -1,8 +1,23 @@
+"""
+DCNN (Deep Convolutional Neural Network) execution module.
+Handles data preparation, training/testing split, and model evaluation.
+"""
 import math, numpy as np
 from DCNN import dcnn
 
 
 def train_test_split(data, clas, tr_per):
+    """
+    Custom train-test split that maintains class distribution.
+    
+    Args:
+        data: Input features
+        clas: Class labels
+        tr_per: Training percentage (0-100)
+        
+    Returns:
+        tuple: (train_x, train_y, test_x, test_y, label)
+    """
     train_x, train_y = [], []  # training data, training class
     test_x, test_y, label = [], [], []  # testing data, testing class, label
     uni = np.unique(clas)  # unique class
@@ -28,6 +43,15 @@ def train_test_split(data, clas, tr_per):
 
 
 def bound(f_data):
+    """
+    Reshape features into square matrices for CNN input.
+    
+    Args:
+        f_data: Flattened input features
+        
+    Returns:
+        numpy.ndarray: Features reshaped to (n_samples, sqrt(n_features), sqrt(n_features))
+    """
     fe = []
     sq = int(math.sqrt(len(f_data[0])))
     n = int(sq * sq)
@@ -41,7 +65,19 @@ def bound(f_data):
 
 
 
-def callmain(data, label,trp,acc,sen,spe):
+def callmain(data, label, trp, acc, sen, spe):
+    """
+    Main DCNN execution function.
+    Trains model, makes predictions, and calculates performance metrics.
+    
+    Args:
+        data: Input features
+        label: Class labels
+        trp: Training percentage (0-1)
+        acc: List to store accuracy (modified in-place)
+        sen: List to store sensitivity (modified in-place)
+        sp: List to store specificity (modified in-place)
+    """
     train_x, train_y, test_x, test_y, target = train_test_split(data, label, trp)  # splitting training & testing data
     feature = np.asarray(bound(data))
     feature = feature.astype('float')

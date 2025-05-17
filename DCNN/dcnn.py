@@ -1,3 +1,7 @@
+"""
+Deep Convolutional Neural Network (DCNN) implementation
+for prostate MRI analysis as a baseline comparison model.
+"""
 import numpy as np
 import math
 import random
@@ -5,6 +9,17 @@ from DCNN.nn_layers import Conv, MaxPooling, FullyConnect, Activation, Softmax, 
 
 
 class CNN(object):
+    """
+    Deep CNN implementation for prostate MRI classification.
+    Architecture:
+    - Two convolutional blocks (Conv+BN+ReLU+Pool)
+    - Two fully connected layers
+    - Softmax output
+    
+    Args:
+        x_shape: Input shape (batch, channels, height, width)
+        label_num: Number of output classes
+    """
     def __init__(self, x_shape, label_num):
         self.batch_size, lr = 16, 1e-3
         # Conv > Normalization > Activation > Dropout > Pooling
@@ -29,6 +44,13 @@ class CNN(object):
             fc2, softmax]
 
     def fit(self, train_x, labels):
+        """
+        Train the CNN model using mini-batch gradient descent.
+        
+        Args:
+            train_x: Training data (numpy array)
+            labels: Ground truth labels (numpy array)
+        """
         n_data = train_x.shape[0]
         train_y = np.zeros((n_data, len(labels) * 2))
         train_y[np.arange(n_data), labels] = 1
@@ -41,6 +63,16 @@ class CNN(object):
                 y = train_y[permut[b_idx, :]]
 
     def predict(self, x, ty):
+        """
+        Make predictions on input data (currently includes random predictions for testing)
+        
+        Args:
+            x: Input data (numpy array)
+            ty: Target labels (used for class range)
+            
+        Returns:
+            list: Predicted labels
+        """
         out, ul = x, np.unique(ty)
         pre = []
         for layer in self.layers:
@@ -61,6 +93,12 @@ class CNN(object):
 
 
 def gradient_check(conv=True):
+    """
+    Verify gradient calculations for convolutional or fully connected layers.
+    
+    Args:
+        conv: If True checks Conv layer, else checks FC layer
+    """
     if conv:
         layera = Conv(in_shape=[16, 32, 28], k_num=12, k_size=3)
         layerb = Conv(in_shape=[16, 32, 28], k_num=12, k_size=3)
@@ -95,6 +133,18 @@ def formt(x, y, rs):
 
 
 def callmain(x, y, ty, tp):
+    """
+    Main execution function for DCNN model.
+    
+    Args:
+        x: Input features
+        y: Labels
+        ty: Test labels
+        tp: Training percentage (0-100)
+        
+    Returns:
+        Predicted labels for test set
+    """
     rs = int(math.sqrt(len(x[0])))
     x = x.reshape(-1, 1, rs, rs)
     test_ratio = (100 - tp) / 100
@@ -107,6 +157,19 @@ def callmain(x, y, ty, tp):
 
 
 def classify(x, y, train_y, test_y, tr_p):
+    """
+    Classify prostate MRI images using DCNN model.
+    
+    Args:
+        x: Input features
+        y: Labels
+        train_y: Training labels
+        test_y: Test labels
+        tr_p: Training percentage (0-1)
+        
+    Returns:
+        Combined predictions (first part uses ground truth, rest uses model)
+    """
     hr = tr_p-0.2
     pred = callmain(x, y, test_y, tr_p)
     predict = []

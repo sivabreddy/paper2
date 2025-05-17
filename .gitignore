@@ -1,3 +1,8 @@
+"""
+Git ignore rules for prostate MRI analysis project.
+Excludes development environment files, build artifacts,
+and large data files that shouldn't be version controlled.
+"""
 # Virtual environment
 venv/
 

@@ -22,6 +22,19 @@ warnings.filterwarnings("ignore")
 deprecation._PRINT_DEPRECATION_WARNINGS = False
 
 def rsnt_50(x_train, y_train, x_test, y_test, ln):
+    """
+    ResNet50 implementation for panoptic classification.
+    
+    Args:
+        x_train: Training features
+        y_train: Training labels
+        x_test: Test features
+        y_test: Test labels
+        ln: Number of classes
+        
+    Returns:
+        tuple: (predictions, ground_truth)
+    """
     x_train=np.tile(x_train, (1, 30))
     a,b = 32,32 # (size of array)
     x_train = np.asarray(x_train[:,:a*b])
@@ -45,7 +58,19 @@ def rsnt_50(x_train, y_train, x_test, y_test, ln):
     return predict,target
 
 
-def classify(data,lab,tr,A,sen,spe):
+def classify(data, lab, tr, A, sen, spe):
+    """
+    Main classification function for panoptic model.
+    Uses SMOTE for oversampling and ResNet50 for classification.
+    
+    Args:
+        data: Input features
+        lab: Labels
+        tr: Training percentage (0-1)
+        A: List to store accuracy (modified in-place)
+        sen: List to store sensitivity (modified in-place)
+        spe: List to store specificity (modified in-place)
+    """
 
     from imblearn.over_sampling import SMOTE as sm
     final_feat,final_label = sm().fit_resample(data,lab)

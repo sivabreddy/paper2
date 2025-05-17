@@ -1,9 +1,21 @@
+"""
+Implementation of the proposed LHFGSO-optimized Deep Maxout model for prostate MRI analysis.
+Contains custom Maxout layer and hybrid optimization approach.
+"""
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.layers import Layer
 import tensorflow as tf
 
 class Maxout(Layer):
+    """
+    Custom Maxout layer implementation that performs element-wise maximum
+    across multiple linear transformations of the input.
+    
+    Attributes:
+        units (int): Number of output units for the layer
+        kernel (tf.Variable): Weight matrix for linear transformations
+    """
     def __init__(self, units, **kwargs):
         super(Maxout, self).__init__(**kwargs)
         self.units = units
@@ -82,7 +94,19 @@ model2.compile(loss='categorical_crossentropy',
                      optimizer='adam',
                      metrics=['accuracy'])
 #tf.keras.utils.plot_model(model2, to_file='MaxoutArchitecture.png', show_shapes=True, show_layer_names=True)
-def Dmax(feature,label,tr,A,Se,Sp):
+def Dmax(feature, label, tr, A, Se, Sp):
+    """
+    Main execution function for the proposed Deep Maxout model.
+    Trains model with LHFGSO optimization and evaluates performance.
+    
+    Args:
+        feature: Input MRI features (numpy array)
+        label: Ground truth labels (numpy array)
+        tr: Training percentage (0-1)
+        A: List to store accuracy results (modified in-place)
+        Se: List to store sensitivity results (modified in-place)
+        Sp: List to store specificity results (modified in-place)
+    """
     hr = 0.5
     NF = 5
     # label=np.random.randint(10,size=(len(feature)))

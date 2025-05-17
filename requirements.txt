@@ -1,3 +1,8 @@
+"""
+Dependencies for prostate MRI analysis system.
+Includes deep learning frameworks, image processing,
+and scientific computing libraries.
+"""
 numpy==1.26.0
 tensorflow==2.16.1
 keras==3.0.1

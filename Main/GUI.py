@@ -91,6 +91,10 @@
 #         window.close()
 #
 #
+"""
+Tkinter-based GUI for prostate MRI analysis system.
+Provides interface to run models and visualize comparative results.
+"""
 import tkinter as tk
 from tkinter import ttk
 import numpy as np
@@ -98,6 +102,15 @@ import matplotlib.pyplot as plt
 from Main import Run
 
 class ApplicationGUI:
+    """
+    Main application window implementing the GUI interface.
+    
+    Features:
+    - Dataset selection
+    - Training parameter configuration
+    - Model comparison results display
+    - Performance visualization
+    """
     def __init__(self, root):
         self.root = root
         self.root.title('142705')
@@ -170,6 +183,11 @@ class ApplicationGUI:
         close_button.pack(side=tk.LEFT, padx=5)
 
     def start_process(self):
+        """
+        Handles START button click event.
+        Configures training parameters and executes all models.
+        Updates UI with accuracy, sensitivity, specificity metrics.
+        """
         if self.selection_var.get() == 'TrainingData(%)':
             tp = int(self.input_var.get()) / 100
         else:
@@ -224,6 +242,14 @@ class ApplicationGUI:
             self.plot_graph(self.Acc, self.Sen, self.Spe)
 
     def plot_graph(self, result_1, result_2, result_3):
+        """
+        Generates comparative bar chart of model performance metrics.
+        
+        Args:
+            result_1: Accuracy values for all models
+            result_2: Sensitivity values for all models
+            result_3: Specificity values for all models
+        """
         plt.figure(dpi=120)
         loc, result = [], []
         result.append(result_1)  # appending the result
