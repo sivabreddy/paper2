@@ -1,4 +1,4 @@
-from Main import Pre_processing,read
+from Main import Pre_processing, read
 import HFGSO_DRN.run
 import ResNet.run
 import DCNN.DCNN_run

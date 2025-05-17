@@ -95,7 +95,7 @@ import tkinter as tk
 from tkinter import ttk
 import numpy as np
 import matplotlib.pyplot as plt
-import Run
+from Main import Run
 
 class ApplicationGUI:
     def __init__(self, root):

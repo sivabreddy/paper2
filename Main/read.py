@@ -1,4 +1,5 @@
 import csv
+import os
 import numpy as np
 
 
@@ -13,7 +14,7 @@ def read_data():
     #         for cols in rows:                          #attributes in each row
     #             tem.append(float(cols))             #add value to temporary array
     #         datas.append(tem)                         #add 1 row of array value to dataset
-    datas = np.load('Feat_fin.npy')
+    datas = np.load(os.path.join(os.path.dirname(__file__), 'Feat_fin.npy'))
     datas = np.nan_to_num(datas)
     return datas
 
@@ -26,5 +27,5 @@ def read_label():
     #     for rows in content:                           #row of data
     #         for cols in rows:                          #attributes in each row
     #             datas.append(int(float(cols)))  # add value to temporary array
-    datas = np.load('lab_fin.npy')
+    datas = np.load(os.path.join(os.path.dirname(__file__), 'lab_fin.npy'))
     return datas

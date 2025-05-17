@@ -1,4 +1,28 @@
 import numpy as np
+import tensorflow as tf
+from tensorflow.keras.layers import Layer
+import tensorflow as tf
+
+class Maxout(Layer):
+    def __init__(self, units, **kwargs):
+        super(Maxout, self).__init__(**kwargs)
+        self.units = units
+
+    def build(self, input_shape):
+        self.kernel = self.add_weight(shape=(input_shape[-1], self.units),
+                                    initializer='glorot_uniform',
+                                    trainable=True)
+        super(Maxout, self).build(input_shape)
+
+    def call(self, inputs):
+        input_shape = tf.shape(inputs)
+        flattened = tf.reshape(inputs, [-1, input_shape[-1]])
+        output = tf.matmul(flattened, self.kernel)
+        output = tf.reshape(output, [input_shape[0], input_shape[1], input_shape[2], self.units])
+        return output
+
+    def compute_output_shape(self, input_shape):
+        return (input_shape[0], input_shape[1], input_shape[2], self.units)
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
 import keras.models as M
@@ -32,17 +56,17 @@ img_shape=(64,64,3)
 a,b,d,f,g=350,20,10,5,50
 inp=L.Input(img_shape)
 conv1=L.Conv2D(filters=64,kernel_size=(3,3),activation=None, kernel_constraint=max_norm)(inp)
-maxout1=L.Lambda(maxout_activation_function,arguments={'units':32})(conv1)
+maxout1 = Maxout(32)(conv1)
 batch1=L.BatchNormalization(momentum=0.8)(maxout1)
 pool1 = L.MaxPooling2D(pool_size=(2,2))(batch1)
 drop1= L.Dropout(0.6)(pool1)
 conv2=L.Conv2D(filters=128,kernel_size=(3,3),activation=None, kernel_constraint=max_norm)(drop1)
-maxout2=L.Lambda(maxout_activation_function,arguments={'units':64})(conv2)
+maxout2 = Maxout(64)(conv2)
 batch2=L.BatchNormalization(momentum=0.8)(maxout2)
 pool2 = L.MaxPooling2D(pool_size=(2,2))(batch2)
 drop2= L.Dropout(0.5)(pool2)
 conv3=L.Conv2D(filters=256,kernel_size=(3,3),activation=None, kernel_constraint=max_norm)(drop2)
-maxout3=L.Lambda(maxout_activation_function,arguments={'units':64})(conv3)
+maxout3 = Maxout(64)(conv3)
 batch3=L.BatchNormalization(momentum=0.8)(maxout3)
 pool3 = L.MaxPooling2D(pool_size=(2,2))(batch3)
 drop3= L.Dropout(0.4)(pool3)

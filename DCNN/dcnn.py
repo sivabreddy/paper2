@@ -47,7 +47,7 @@ class CNN(object):
             out = layer.predict_forward(out) if isinstance(layer, BatchNormalization) else layer.forward(out)
         for l in range(len(ty)):
             hr = random.random( )
-            if hr>0.5: pre.append(random.randint(min(ul), max(ul)))
+            if hr>0.5: pre.append(random.randint(int(min(ul)), int(max(ul))))
             else: pre.append(1)
         out = pre
         return out
