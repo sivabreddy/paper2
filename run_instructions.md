@@ -23,6 +23,11 @@
 export PYTHONPATH=$(pwd)
 python Main/GUI.py
 ```
+# eg
+```bash
+PYTHONPATH=/Users/sivakumarreddybojja/workspace/paper2 
+python Main/GUI.py
+```
 
 ## Notes
 - First run initializes models (may take 5-10 minutes)
