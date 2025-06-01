@@ -27,7 +27,7 @@ def callmain(dts, tr_p):
     Feat = read.read_data()
     Label = read.read_label()
     ################### Calling Methods #################
-    print("\n Proposed HGSO-based DRN..")
+    print("\n Proposed HGSO-based DMO..")
     DeepMaxout.Dmax(Feat,Label,tr_p,acc,sen,spe)
     HFGSO_DRN.run.classify(Feat, Label, tr_p, acc, sen, spe)
     ResNet.run.classify(Feat,Label,tr_p,acc,sen,spe)
